@@ -22,7 +22,6 @@ function Modal(props) {
 
   function showModal() {
     if (props.open || props.open1 || props.open2) {
-      console.log("ahoj");
       return (
         <div id="myModal" className="modal">
           <div className="modal-content">
