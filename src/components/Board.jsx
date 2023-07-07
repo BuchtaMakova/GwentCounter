@@ -33,17 +33,19 @@ function Board() {
     if (open) {
       setSum((currentSum) => currentSum + formData.numberInput);
 
-      console.log(cardData[0]);
-      console.log(formData);
+      // console.log(cardData[0]);
+      //console.log(formData);
       const newVar = [...cardData, formData];
       const tightBondCount = newVar.filter(
         (i) => i.selectedOption == "tightbond"
       ).length;
-      console.log(tightBondCount);
+      //console.log(tightBondCount);
       const firstTightBond = newVar.find(
         (i) => i.selectedOption == "tightbond"
       );
-      const tightBondResult = tightBondCount * firstTightBond.numberInput;
+      console.log(firstTightBond);
+
+      const tightBondResult = tightBondCount * firstTightBond.numberInputHard;
       const newData = newVar.map((card, index) => {
         if (card.selectedOption === "tightbond") {
           return {
@@ -55,7 +57,7 @@ function Board() {
       });
 
       const sumTightBond = newData.reduce((acc, i) => acc + i.numberInput, 0);
-      console.log(sumTightBond);
+      //console.log(sumTightBond);
 
       setCardData(newData);
     } else if (open1) {

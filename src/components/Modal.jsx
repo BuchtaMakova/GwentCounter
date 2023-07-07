@@ -4,6 +4,7 @@ import { useState } from "react";
 function Modal(props) {
   const [selectedOption, setSelectedOption] = useState("");
   const [numberInput, setNumberInput] = useState(0);
+  const [numberInputHard, setNumberInputHard] = useState(0);
   const [hero, setHero] = useState(false);
   const [decoy, setDecoy] = useState(false);
 
@@ -16,7 +17,13 @@ function Modal(props) {
   };
 
   function bruh() {
-    const formData = { numberInput, selectedOption, hero, decoy };
+    const formData = {
+      numberInput,
+      numberInputHard,
+      selectedOption,
+      hero,
+      decoy,
+    };
     props.setData(formData);
   }
 
@@ -36,7 +43,10 @@ function Modal(props) {
                   className="numero"
                   type="number"
                   value={numberInput}
-                  onChange={(e) => setNumberInput(parseInt(e.target.value))}
+                  onChange={(e) => {
+                    setNumberInputHard(parseInt(e.target.value));
+                    setNumberInput(parseInt(e.target.value));
+                  }}
                 />
 
                 <label className="relative inline-flex items-center cursor-pointer">
