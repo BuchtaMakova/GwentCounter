@@ -2,7 +2,7 @@ import "./modal.css";
 import { useState } from "react";
 
 function Modal(props) {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("none");
   const [numberInput, setNumberInput] = useState(0);
   const [numberInputHard, setNumberInputHard] = useState(0);
   const [hero, setHero] = useState(false);
