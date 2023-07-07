@@ -33,31 +33,33 @@ function Board() {
     if (open) {
       setSum((currentSum) => currentSum + formData.numberInput);
 
-      // console.log(cardData[0]);
-      //console.log(formData);
       const newVar = [...cardData, formData];
+      console.log(formData);
+      const numberInput = formData.numberInput;
       const tightBondCount = newVar.filter(
-        (i) => i.selectedOption == "tightbond"
+        (i) =>
+          i.selectedOption == "tightbond" && i.numberInputHard == numberInput
       ).length;
-      //console.log(tightBondCount);
-      const firstTightBond = newVar.find(
-        (i) => i.selectedOption == "tightbond"
-      );
-      console.log(firstTightBond);
 
-      const tightBondResult = tightBondCount * firstTightBond.numberInputHard;
+      const tightBondResult = tightBondCount * numberInput;
       const newData = newVar.map((card, index) => {
-        if (card.selectedOption === "tightbond") {
+        console.log(card);
+        if (
+          card.selectedOption === "tightbond" &&
+          card.numberInputHard == numberInput
+        ) {
           return {
             ...card,
             numberInput: tightBondResult,
+            numberInputHard: numberInput,
           };
         }
         return card;
       });
 
       const sumTightBond = newData.reduce((acc, i) => acc + i.numberInput, 0);
-      //console.log(sumTightBond);
+      console.log(sumTightBond);
+      console.log(newData);
 
       setCardData(newData);
     } else if (open1) {
