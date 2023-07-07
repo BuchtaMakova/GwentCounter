@@ -16,7 +16,8 @@
     margin: 15% auto; /* 15% from the top and centered */
     padding: 10px;
     border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */
+    width: 40%;
+    /* Could be more or less, depending on screen size */
     display: flex;
     flex-direction: column;
 }
@@ -36,6 +37,7 @@
     cursor: pointer;
     border-radius: 50%;
     transform: rotate(-45deg);
+    border: 0;
 }
 
 .cross:after {
@@ -59,12 +61,11 @@
 
 .cross:hover:before,
 .cross:hover:after {
-    background: #fff;
     transition: 0.2s;
 }
 
 .cross:hover {
-    background-color: #095776;
+    background-color: rgba(9, 87, 118, 0.2);
     transition: 0.2s;
 }
 
@@ -74,6 +75,21 @@
 
 .numero{
     border: 2px solid #095776;
-    width: 10%;
+    width: 35px;
     font-size: 20px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-buttons{
+    display: flex;
+    justify-content: center;
+}
+
+.checkboxes{
+    display: flex;
+    justify-content: center;
 }
