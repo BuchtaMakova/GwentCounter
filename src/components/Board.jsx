@@ -10,6 +10,8 @@ function Board() {
   const [cardData1, setCardData1] = useState([]);
   const [cardData2, setCardData2] = useState([]);
   const [sum, setSum] = useState(0);
+  const [sum1, setSum1] = useState(0);
+  const [sum2, setSum2] = useState(0);
 
   function openModal() {
     setOpen(true);
@@ -29,7 +31,7 @@ function Board() {
     setOpen2(false);
   }
 
-  function tightBond(cardData, setCardData, formData) {
+  function tightBond(cardData, setCardData, formData, setSum) {
     const newVar = [...cardData, formData];
     //console.log(formData);
     const numberInput = formData.numberInput;
@@ -65,11 +67,11 @@ function Board() {
 
   function setData(formData) {
     if (open) {
-      tightBond(cardData, setCardData, formData);
+      tightBond(cardData, setCardData, formData, setSum);
     } else if (open1) {
-      tightBond(cardData1, setCardData1, formData);
+      tightBond(cardData1, setCardData1, formData, setSum1);
     } else if (open2) {
-      tightBond(cardData2, setCardData2, formData);
+      tightBond(cardData2, setCardData2, formData, setSum2);
     }
   }
 
@@ -83,7 +85,7 @@ function Board() {
         setData={setData}
       />
       <div className="board">
-        <div>{sum}</div>
+        <div>{sum + sum1 + sum2}</div>
         <div className="row">
           {cardData.map((card, index) => {
             return (
