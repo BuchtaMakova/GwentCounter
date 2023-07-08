@@ -86,7 +86,7 @@ function Board() {
     setCardData(newData);
   }*/
 
-  function specialCards(cardData, setCardData, formData, setSum) {
+  function Cards(cardData, setCardData, formData, setSum) {
     const newVarMoraleBoost = [...cardData, formData];
     const numberInput = formData.numberInput;
     const tightBondCount = newVarMoraleBoost.filter(
@@ -141,11 +141,13 @@ function Board() {
   function setData(formData) {
     if (open) {
       //tightBond(cardData, setCardData, formData, setSum);
-      specialCards(cardData, setCardData, formData, setSum);
+      Cards(cardData, setCardData, formData, setSum);
     } else if (open1) {
-      tightBond(cardData1, setCardData1, formData, setSum1);
+      //tightBond(cardData1, setCardData1, formData, setSum1);
+      Cards(cardData, setCardData, formData, setSum);
     } else if (open2) {
-      tightBond(cardData2, setCardData2, formData, setSum2);
+      //tightBond(cardData2, setCardData2, formData, setSum2);
+      Cards(cardData, setCardData, formData, setSum);
     }
   }
 
