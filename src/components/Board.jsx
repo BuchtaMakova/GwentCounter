@@ -87,16 +87,16 @@ function Board() {
   }*/
 
   function Cards(cardData, setCardData, formData, setSum) {
-    const newVarMoraleBoost = [...cardData, formData];
+    const newVar = [...cardData, formData];
     const numberInput = formData.numberInput;
     const tightBondCount = newVarMoraleBoost.filter(
       (i) => i.selectedOption == "tightbond" && i.numberInputHard == numberInput
     ).length;
     const tightBondResult = tightBondCount * numberInput;
-    const moraleBoostCount = newVarMoraleBoost.filter(
+    const moraleBoostCount = newVar.filter(
       (i) => i.selectedOption == "moraleboost"
     ).length;
-    const newData = newVarMoraleBoost.map((card, index) => {
+    const newData = newVar.map((card, index) => {
       const moraleBoostResult = card.numberInputHard + moraleBoostCount;
       const moraleBoostSelf = moraleBoostResult - 1;
 
