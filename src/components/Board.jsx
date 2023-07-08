@@ -29,48 +29,47 @@ function Board() {
     setOpen2(false);
   }
 
+  function tightBond(cardData, setCardData, formData) {
+    const newVar = [...cardData, formData];
+    //console.log(formData);
+    const numberInput = formData.numberInput;
+    const tightBondCount = newVar.filter(
+      (i) => i.selectedOption == "tightbond" && i.numberInputHard == numberInput
+    ).length;
+
+    const tightBondResult = tightBondCount * numberInput;
+    const newData = newVar.map((card, index) => {
+      //console.log(card);
+      if (
+        card.selectedOption === "tightbond" &&
+        card.numberInputHard == numberInput
+      ) {
+        return {
+          ...card,
+          numberInput: tightBondResult,
+          numberInputHard: numberInput,
+        };
+      }
+
+      return card;
+    });
+
+    const sumTightBond = newData.reduce((acc, i) => acc + i.numberInput, 0);
+    setSum(sumTightBond);
+
+    console.log(sumTightBond);
+    //console.log(newData);
+
+    setCardData(newData);
+  }
+
   function setData(formData) {
     if (open) {
-      const newVar = [...cardData, formData];
-      //console.log(formData);
-      const numberInput = formData.numberInput;
-      const tightBondCount = newVar.filter(
-        (i) =>
-          i.selectedOption == "tightbond" && i.numberInputHard == numberInput
-      ).length;
-
-      const tightBondResult = tightBondCount * numberInput;
-      const newData = newVar.map((card, index) => {
-        //console.log(card);
-        if (
-          card.selectedOption === "tightbond" &&
-          card.numberInputHard == numberInput
-        ) {
-          return {
-            ...card,
-            numberInput: tightBondResult,
-            numberInputHard: numberInput,
-          };
-        }
-
-        return card;
-      });
-
-      const sumTightBond = newData.reduce((acc, i) => acc + i.numberInput, 0);
-      setSum(sumTightBond);
-
-      console.log(sumTightBond);
-      //console.log(newData);
-
-      setCardData(newData);
+      tightBond(cardData, setCardData, formData);
     } else if (open1) {
-      setCardData1((current) => [...current, formData]);
-      setSum((currentSum) => currentSum + formData.numberInput);
-      console.log(formData);
+      tightBond(cardData1, setCardData1, formData);
     } else if (open2) {
-      setCardData2((current) => [...current, formData]);
-      setSum((currentSum) => currentSum + formData.numberInput);
-      console.log(formData);
+      tightBond(cardData2, setCardData2, formData);
     }
   }
 
