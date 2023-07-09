@@ -31,106 +31,76 @@ function Board() {
     setOpen2(false);
   }
 
-  /*function tightBond(cardData, setCardData, formData, setSum) {
-    const newVar = [...cardData, formData];
+  function tightBond(cardData, setCardData, formData, newVar) {
     const numberInput = formData.numberInput;
     const tightBondCount = newVar.filter(
       (i) => i.selectedOption == "tightbond" && i.numberInputHard == numberInput
     ).length;
-    const tightBondResult = tightBondCount * numberInput;
-    const newData = newVar.map((card, index) => {
-      if (
-        card.selectedOption === "tightbond" &&
-        card.numberInputHard == numberInput
-      ) {
-        return {
-          ...card,
-          numberInput: tightBondResult,
-          numberInputHard: numberInput,
-        };
-      }
-      return card;
-    });
-    const sumTightBond = newData.reduce((acc, i) => acc + i.numberInput, 0);
-    setSum(sumTightBond);
-    setCardData(newData);
-  }*/
 
-  /*function moraleBoost(cardData, setCardData, formData, setSum) {
-    const newVarMoraleBoost = [...cardData, formData];
-    const numberInput = formData.numberInput;
-    const moraleBoostCount = newVarMoraleBoost.filter(
-      (i) => i.selectedOption == "moraleboost"
-    ).length;
-    const newData = newVarMoraleBoost.map((card, index) => {
-      const moraleBoostResult = card.numberInputHard + moraleBoostCount;
-      const moraleBoostSelf = moraleBoostResult - 1;
-      if (card.selectedOption !== "moraleboost" && moraleBoostCount > 0) {
-        return {
-          ...card,
-          numberInput: moraleBoostResult,
-        };
-      } else if (
-        card.selectedOption === "moraleboost" &&
-        moraleBoostCount > 1
-      ) {
-        return {
-          ...card,
-          numberInput: moraleBoostSelf,
-        };
-      }
-      return card;
-    });
-    const sumMoraleBoost = newData.reduce((acc, i) => acc + i.numberInput, 0);
-    setSum(sumMoraleBoost);
-    setCardData(newData);
-  }*/
+    return tightBondCount * numberInput;
+  }
 
-  function Cards(cardData, setCardData, formData, setSum) {
+  function moraleBoost(cardData, setCardData, formData, newVar, card) {
+    const moraleBoostResult = card.numberInputHard + moraleBoostCount(newVar);
+    const moraleTight =
+      tightBond(cardData, setCardData, formData, newVar, card) +
+      moraleBoostCount(newVar);
+    const moraleBoostSelf = moraleBoostResult - 1;
+
+    if (card.selectedOption === "moraleboost" && moraleBoostCount(newVar) > 1) {
+      return moraleBoostSelf;
+    } else if (card.selectedOption === "tightbond") {
+      return moraleTight;
+    } else {
+      return moraleBoostResult;
+    }
+  }
+  function moraleBoostCount(newVar) {
+    return newVar.filter((i) => i.selectedOption == "moraleboost").length;
+  }
+  function cards(cardData, setCardData, formData, setSum) {
     const newVar = [...cardData, formData];
     const numberInput = formData.numberInput;
-    const tightBondCount = newVarMoraleBoost.filter(
-      (i) => i.selectedOption == "tightbond" && i.numberInputHard == numberInput
-    ).length;
-    const tightBondResult = tightBondCount * numberInput;
-    const moraleBoostCount = newVar.filter(
-      (i) => i.selectedOption == "moraleboost"
-    ).length;
-    const newData = newVar.map((card, index) => {
-      const moraleBoostResult = card.numberInputHard + moraleBoostCount;
-      const moraleBoostSelf = moraleBoostResult - 1;
 
-      if (card.selectedOption !== "moraleboost" && moraleBoostCount > 0) {
-        if (card.selectedOption === "tightbond") {
-          const moraleBoostResult = tightBondResult + moraleBoostCount;
-          return {
-            ...card,
-            numberInput: moraleBoostResult,
-          };
-        }
+    const newData = newVar.map((card, index) => {
+      if (
+        card.selectedOption !== "moraleboost" &&
+        moraleBoostCount(newVar) > 0
+      ) {
         return {
           ...card,
-          numberInput: moraleBoostResult,
+          numberInput: moraleBoost(
+            cardData,
+            setCardData,
+            formData,
+            newVar,
+            card
+          ),
         };
       } else if (
         card.selectedOption === "moraleboost" &&
-        moraleBoostCount > 1
+        moraleBoostCount(newVar) > 1
       ) {
         return {
           ...card,
-          numberInput: moraleBoostSelf,
+          numberInput: moraleBoost(
+            cardData,
+            setCardData,
+            formData,
+            newVar,
+            card
+          ),
         };
       } else if (
         card.selectedOption === "tightbond" &&
-        card.numberInputHard == numberInput
+        card.numberInputHard === numberInput
       ) {
         return {
           ...card,
-          numberInput: tightBondResult,
+          numberInput: tightBond(cardData, setCardData, formData, newVar, card),
           //numberInputHard: numberInput,
         };
       }
-
       return card;
     });
     const sumMoraleBoost = newData.reduce((acc, i) => acc + i.numberInput, 0);
@@ -141,13 +111,13 @@ function Board() {
   function setData(formData) {
     if (open) {
       //tightBond(cardData, setCardData, formData, setSum);
-      Cards(cardData, setCardData, formData, setSum);
+      cards(cardData, setCardData, formData, setSum);
     } else if (open1) {
       //tightBond(cardData1, setCardData1, formData, setSum1);
-      Cards(cardData, setCardData, formData, setSum);
+      cards(cardData, setCardData, formData, setSum);
     } else if (open2) {
       //tightBond(cardData2, setCardData2, formData, setSum2);
-      Cards(cardData, setCardData, formData, setSum);
+      cards(cardData, setCardData, formData, setSum);
     }
   }
 
