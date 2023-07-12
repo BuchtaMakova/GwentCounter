@@ -1,5 +1,5 @@
 import "./board.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Modal.jsx";
 import Cards from "./Cards.jsx";
 function Board() {
@@ -12,6 +12,7 @@ function Board() {
   const [sum, setSum] = useState(0);
   const [sum1, setSum1] = useState(0);
   const [sum2, setSum2] = useState(0);
+  const [horn, setHorn] = useState(1);
 
   function openModal() {
     setOpen(true);
@@ -86,52 +87,78 @@ function Board() {
     setCardData(newData);
   }*/
 
+  function hornEquals(newVar) {
+    return newVar.selectedOption === "horn";
+  }
+
   function cards(cardData, setCardData, formData, setSum) {
     const newVar = [...cardData, formData];
     const numberInput = formData.numberInput;
     const tightBondCount = newVar.filter(
       (i) => i.selectedOption == "tightbond" && i.numberInputHard == numberInput
     ).length;
-    const tightBondResult = tightBondCount * numberInput;
-
     const moraleBoostCount = newVar.filter(
       (i) => i.selectedOption == "moraleboost"
     ).length;
+    const hornExists = newVar.some(hornEquals);
+    const tightBondResult = tightBondCount * numberInput;
+    const tightMoraleResult = tightBondResult + moraleBoostCount;
+
     const tightMorale = tightBondResult + moraleBoostCount;
     // const moraleBoostResult = formData.numberInputHard + moraleBoostCount;
 
     const newData = newVar.map((card, index) => {
       const moraleBoostResult = card.numberInput + moraleBoostCount;
-      const moraleBoostSelf = moraleBoostResult - 1;
-      if (card.selectedOption !== "moraleboost" && moraleBoostCount > 0) {
-        if (
-          card.selectedOption === "tightbond" &&
-          card.numberInputHard === numberInput
-        ) {
-          const tightBondResult =
-            tightBondCount * card.numberInputHard + moraleBoostCount;
+      const moraleBoostSelf = card.numberInputHard + moraleBoostCount - 1;
+      console.log(hornExists);
+      let horn = 1;
+      if (hornExists) {
+        horn = 2;
+      }
+
+      if (card.selectedOption === "tightbond") {
+        if (moraleBoostCount > 0) {
           return {
             ...card,
-            numberInput: tightBondResult,
+            numberInput: tightMoraleResult * horn,
           };
         }
-        return {
-          ...card,
-          numberInput: moraleBoostResult,
-        };
-      } else {
+
         if (
           card.selectedOption === "tightbond" &&
           card.numberInputHard === numberInput
         ) {
           return {
             ...card,
-            numberInput: tightBondResult,
+            numberInput: tightBondResult * horn,
           };
         }
       }
 
-      return card;
+      if (card.selectedOption === "moraleboost") {
+        if (moraleBoostCount > 1) {
+          return {
+            ...card,
+            numberInput: moraleBoostSelf * horn,
+          };
+        }
+        //pičo nevim prosim moral boost se nasobi dvakrat numberinput je gay
+        return {
+          ...card,
+          numberInput: card.numberInput * horn,
+        };
+      }
+
+      if (card.selectedOption === "horn") {
+        if (moraleBoostCount > 0) {
+          return {
+            ...card,
+            numberInput: moraleBoostResult,
+          };
+        }
+      }
+
+      return card * horn;
     });
     const sumMoraleBoost = newData.reduce((acc, i) => acc + i.numberInput, 0);
     setSum(sumMoraleBoost);
